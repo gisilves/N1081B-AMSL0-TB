@@ -1,5 +1,3 @@
-import pprint
-import tkinter as tk
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QHBoxLayout
 from N1081B_sdk import N1081B
