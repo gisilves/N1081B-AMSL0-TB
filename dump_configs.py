@@ -6,7 +6,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 print("Info for the first device")
 
-N1081B_device1 = N1081B("192.168.2.127")
+N1081B_device1 = N1081B("pool05940004.cern.ch")
 N1081B_device1.connect()
 version_json = N1081B_device1.get_version()
 pp.pprint(version_json)
@@ -14,8 +14,6 @@ serial_number = version_json["data"]["serial_number"]
 software_version = version_json["data"]["software_version"]
 zynq_version = version_json["data"]["zynq_version"]
 fpga_version = version_json["data"]["fpga_version"]
-#Load the Config_ams1 configuration file
-N1081B_device1.load_configuration_file("Config_1")
 
 #Download the configuration file to the device
 config1 = N1081B_device1.download_configuration_file("Config_1")
@@ -28,7 +26,7 @@ print("\n\n\n")
 
 print("Info for the second device")
 
-N1081B_device2 = N1081B("192.168.2.128")
+N1081B_device2 = N1081B("pool05940001.cern.ch")
 N1081B_device2.connect()
 version_json = N1081B_device2.get_version()
 pp.pprint(version_json)
@@ -36,8 +34,6 @@ serial_number = version_json["data"]["serial_number"]
 software_version = version_json["data"]["software_version"]
 zynq_version = version_json["data"]["zynq_version"]
 fpga_version = version_json["data"]["fpga_version"]
-#Load the Config_ams2 configuration file
-N1081B_device2.load_configuration_file("Config_ams2")
 
 #Download the configuration file to the device
 config2 = N1081B_device2.download_configuration_file("Config_2")
