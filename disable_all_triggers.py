@@ -22,13 +22,6 @@ def read_scalers():
     now = datetime.now()
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tTotal scintillator coincidences: " + str(scaler_1) + "\tTotal triggers: " + str(scaler_2))
 
-def reset_scalers():
-    N1081B_device2.reset_channel(N1081B.Section.SEC_D,0,N1081B.FunctionType.FN_SCALER)
-    N1081B_device2.reset_channel(N1081B.Section.SEC_D,1,N1081B.FunctionType.FN_SCALER)
-
-    now = datetime.now()
-    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tScalers reset")
-
 if __name__ == "__main__":
     
     N1081B_device1 = N1081B("pool05940004.cern.ch")
