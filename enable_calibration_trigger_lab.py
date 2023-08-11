@@ -34,8 +34,6 @@ if __name__ == "__main__":
     N1081B_device2.connect()
 
     reset_scalers()
-    now = datetime.now()
-    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tScalers reset")
 
     enable_calibration()
     now = datetime.now()
