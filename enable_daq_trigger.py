@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 from N1081B_sdk import N1081B
 
 def disable_calibration():
@@ -17,4 +18,10 @@ if __name__ == "__main__":
     N1081B_device2.connect()
 
     disable_calibration()
+    now = datetime.now()
+    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tCalibration disabled")
+
+
     enable_master_trigger()
+    now = datetime.now()
+    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tTriggers enabled")
