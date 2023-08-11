@@ -14,7 +14,16 @@ def reset_scalers():
     N1081B_device2.reset_channel(N1081B.Section.SEC_D,1,N1081B.FunctionType.FN_SCALER)
 
     now = datetime.now()
-    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tScalers reset")
+    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tScalers reset before calibration trigger")
+
+def disable_fake_spill():
+    #Retrieve SEC_D configuration
+    current_config = N1081B_device1.get_function_configuration(N1081B.Section.SEC_D)
+    # Retrieve the 'enable' value for fake busy from current_config
+    target_lemo = 2
+    lemo_enables = current_config['data']['lemo_enables']
+    fake_busy = target_enable_value = next(item['enable'] for item in lemo_enables if item['lemo'] == target_lemo)
+    N1081B_device1.configure_digital_generator(N1081B.Section.SEC_D,False,False,fake_busy,False)
 
 if __name__ == "__main__":
     
@@ -27,10 +36,14 @@ if __name__ == "__main__":
     reset_scalers()
     now = datetime.now()
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tScalers reset")
-    
+
     enable_calibration()
     now = datetime.now()
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tCalibration enabled")
+
+    disable_fake_spill()
+    now = datetime.now()
+    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tFake spill disabled (LAB TESTS ONLY)")
 
     enable_master_trigger()
     now = datetime.now()
