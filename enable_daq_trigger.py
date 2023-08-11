@@ -16,16 +16,6 @@ def reset_scalers():
     now = datetime.now()
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tScalers reset before DAQ trigger")
 
-
-def enable_fake_spill():
-    #Retrieve SEC_D configuration
-    current_config = N1081B_device1.get_function_configuration(N1081B.Section.SEC_D)
-    # Retrieve the 'enable' value for fake busy from current_config
-    target_lemo = 2
-    lemo_enables = current_config['data']['lemo_enables']
-    fake_busy = target_enable_value = next(item['enable'] for item in lemo_enables if item['lemo'] == target_lemo)
-    N1081B_device1.configure_digital_generator(N1081B.Section.SEC_D,True,True,fake_busy,False)
-
 if __name__ == "__main__":
     
     N1081B_device1 = N1081B("pool05940004.cern.ch")
@@ -41,10 +31,6 @@ if __name__ == "__main__":
     disable_calibration()
     now = datetime.now()
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tCalibration disabled")
-
-    enable_fake_spill()
-    now = datetime.now()
-    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tFake spill enabled (LAB TESTS ONLY)")
 
     enable_master_trigger()
     now = datetime.now()
