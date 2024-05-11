@@ -38,22 +38,35 @@ def read_scalers():
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tTotal scintillator ANDs: " + str(scaler_3))
 
 if __name__ == "__main__":
-    
+
     now = datetime.now()
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tStopping all triggers ...")
-
+    
     N1081B_device1 = N1081B("caenplu-perugia1.cern.ch")
     N1081B_device1.connect()
-
+    
     N1081B_device2 = N1081B("caenplu-perugia2.cern.ch")
     N1081B_device2.connect()
-
-    disable_master_trigger()
-    disable_pulser()
     
-#    send_run_cmd("STOP", 0, "/Data/BLOCKS/USBLF_PCGSC03/", "/home/ams/lontra/log.txt")
-
-    now = datetime.now()
-    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tAll Triggers disabled")
-
-    read_scalers()
+    # login with password
+    authorized1 = N1081B_device1.login("12345")
+    authorized2 = N1081B_device2.login("12345")
+    
+    if (authorized1 and authorized2):    
+        
+        disable_master_trigger()
+        disable_pulser()
+        
+        #    send_run_cmd("STOP", 0, "/Data/BLOCKS/USBLF_PCGSC03/", "/home/ams/lontra/log.txt")
+        
+        now = datetime.now()
+        print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tAll Triggers disabled")
+        
+        read_scalers()
+        
+    else:
+        print("Wrong password!")
+        
+    # close connection
+    N1081B_device1.disconnect()
+    N1081B_device2.disconnect()
