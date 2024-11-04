@@ -33,7 +33,7 @@ def reset_scalers():
     now = datetime.now()
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tScalers reset before calibration trigger")
 
-if __name__ == "__main__":
+def enable_calibration_trigger():
 
     N1081B_device1 = N1081B(ipdevice1)
     N1081B_device2 = N1081B(ipdevice2)
@@ -95,7 +95,7 @@ while goodconnection1==False or goodconnection2==False:
         if (authorized1 and authorized2):
             disable_pulser()
             
-            #    send_run_cmd("STOP", 0, "/Data/BLOCKS/USBLF_PCGSC03/", "/home/ams/lontra/log.txt")
+            send_run_cmd("STOP", 0, "/Data/BLOCKS/USBLF_PCGSC03/", "/home/ams/RUN/lontra/log.txt")
             
             N1081B_device1.start_acquisition(N1081B.Section.SEC_D, N1081B.FunctionType.FN_LUT)
             
@@ -109,7 +109,7 @@ while goodconnection1==False or goodconnection2==False:
             
             reset_scalers()
             
-            #    send_run_cmd("START", 0, "/Data/BLOCKS/USBLF_PCGSC03/", "/home/ams/lontra/log.txt")
+            send_run_cmd("START", 0, "/Data/BLOCKS/USBLF_PCGSC03/", "/home/ams/RUN/lontra/log.txt")
             
             enable_calibration()
             
@@ -137,3 +137,6 @@ while goodconnection1==False or goodconnection2==False:
         send_mail(msgtosend)
 
     time.sleep(60) 
+
+if __name__ == "__main__":
+    enable_calibration_trigger()

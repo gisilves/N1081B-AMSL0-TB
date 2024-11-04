@@ -44,7 +44,7 @@ def read_scalers():
 #    print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tTotal busy: " + str(scaler_3))
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tTotal scintillator ANDs: " + str(scaler_3))
 
-if __name__ == "__main__":
+def disable_all_trigger():
 
     now = datetime.now()
     print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tStopping all triggers ...")
@@ -111,7 +111,7 @@ while goodconnection1==False or goodconnection2==False:
             disable_master_trigger()
             disable_pulser()
             
-            #    send_run_cmd("STOP", 0, "/Data/BLOCKS/USBLF_PCGSC03/", "/home/ams/lontra/log.txt")
+            send_run_cmd("STOP", 0, "/Data/BLOCKS/USBLF_PCGSC03/", "/home/ams/RUN/lontra/log.txt")
             
             now = datetime.now()
             print(now.strftime("%d/%m/%Y %H:%M:%S") + "\tAll Triggers disabled")
@@ -139,3 +139,6 @@ while goodconnection1==False or goodconnection2==False:
         send_mail(msgtosend)
 
     time.sleep(60) 
+
+if __name__ == "__main__":
+    disable_all_trigger()
