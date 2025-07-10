@@ -46,7 +46,7 @@ def generate_double_pulse(device, pulse_gap_us):
                                             True,
                                             True,
                                             1000,
-                                            1000 + int(pulse_gap_us)*1000,
+                                            int(pulse_gap_us)*1000 - 200,
                                             False)
     
 
@@ -55,24 +55,32 @@ def generate_double_pulse(device, pulse_gap_us):
 
 # -----------------------------------------------------------------------------
 
-def main():
-    # Loop: generate double pulse for 5s, then increase the gap between the two pulses by 1us
-    delta_us = args.delta_us
-
-    while delta_us < 200:
-        generate_double_pulse(device, delta_us)
-        time.sleep(5)
-        delta_us += 1
-
+def main(args, device):
+    if not args.sweep:
+        generate_double_pulse(device, args.delta_us)
+    else:
+        for delta_us in np.arange(args.min_delta_us, args.max_delta_us, args.step):
+            generate_double_pulse(device, delta_us)
+            time.sleep(args.duration)
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate a programmable double pulse using CAEN N1081B")
-    parser.add_argument("--delta_us", type=float, default=1,
-                        help="Gap between two pulses in microseconds (e.g. 200)")
+    parser.add_argument("--delta_us", type=float, default=200,
+                        help="Gap between two pulses in microseconds (default: 200)")
     parser.add_argument("--ip", type=str, default="pool05940011.cern.ch",
                         help="IP address or hostname of the N1081B device")
     parser.add_argument("--password", type=str, default="password",
                         help="Password for the device login")
+    parser.add_argument("--min_delta_us", type=float, default=1,
+                        help="Minimum gap between two pulses in microseconds (default: 1)")
+    parser.add_argument("--max_delta_us", type=float, default=200,
+                        help="Maximum gap between two pulses in microseconds (default: 200)")
+    parser.add_argument("--sweep", action='store_true',
+                        help="Enable sweeping the gap between two pulses")
+    parser.add_argument("--step", type=float, default=1,
+                        help="Step size for the gap sweep in microseconds (default: 1)")
+    parser.add_argument("--duration", type=float, default=5,
+                        help="Duration of each sweep step in seconds (default: 5)")
     args = parser.parse_args()
 
     device = N1081B(args.ip)
@@ -80,7 +88,7 @@ if __name__ == "__main__":
     try:
         device.connect()
         device.login(args.password)
-        main()
+        main(args, device)
     finally:
         device.disconnect()
         print("Disconnected from device.")
