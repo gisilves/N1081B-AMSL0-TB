@@ -116,9 +116,9 @@ if __name__ == "__main__":
     parser.add_argument("--sweep", action='store_true',
                         help="Enable sweeping the gap between two pulses")
     parser.add_argument("--step", type=float, default=100,
-                        help="Step size for the gap sweep in microseconds (default: 1)")
-    parser.add_argument("--duration", type=float, default=5,
-                        help="Duration of each sweep step in seconds (default: 5)")
+                        help="Step size for the gap sweep in microseconds (default: 100)")
+    parser.add_argument("--duration", type=float, default=60,
+                        help="Duration of each sweep step in seconds (default: 60)")
     args = parser.parse_args()
 
     device = N1081B(args.ip)
