@@ -1,3 +1,18 @@
+"""
+Script to generate a double pulse with a programmable gap between them, with a repetition rate around 250 Hz.
+
+TODO: Time after the double pulse is changes with the gap (but order of milliseconds for all the values used in the test)
+
+Connections used for AMS-L0 DAQ test:
+
+OUT1_SEC_A -> IN1_SEC_C
+OUT3_SEC_A -> IN2_SEC_B
+
+OUT1_SEC_B -> IN2_SEC_C
+
+OUT1_SEC_C -> USB_TRIG_IN
+"""
+
 import numpy as np
 import argparse
 from N1081B_sdk import N1081B
