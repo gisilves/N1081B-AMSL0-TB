@@ -18,7 +18,7 @@ def generate_double_pulse(device, pulse_gap_us):
 
     device.configure_pulse_generator(N1081B.Section.SEC_A,
                                      N1081B.StatisticMode.STAT_DETERMINISTIC,
-                                     1000, 5000000, True, False, True, False)
+                                     1000, 8000000, True, False, True, False)
     
     # Set outputs to TTL
     device.set_output_configuration(N1081B.Section.SEC_A,
@@ -94,13 +94,13 @@ if __name__ == "__main__":
                         help="IP address or hostname of the N1081B device")
     parser.add_argument("--password", type=str, default="password",
                         help="Password for the device login")
-    parser.add_argument("--min_delta_us", type=float, default=1,
+    parser.add_argument("--min_delta_us", type=float, default=200,
                         help="Minimum gap between two pulses in microseconds (default: 1)")
-    parser.add_argument("--max_delta_us", type=float, default=200,
+    parser.add_argument("--max_delta_us", type=float, default=1200,
                         help="Maximum gap between two pulses in microseconds (default: 200)")
     parser.add_argument("--sweep", action='store_true',
                         help="Enable sweeping the gap between two pulses")
-    parser.add_argument("--step", type=float, default=1,
+    parser.add_argument("--step", type=float, default=100,
                         help="Step size for the gap sweep in microseconds (default: 1)")
     parser.add_argument("--duration", type=float, default=5,
                         help="Duration of each sweep step in seconds (default: 5)")
