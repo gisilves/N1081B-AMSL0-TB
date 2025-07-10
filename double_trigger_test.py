@@ -18,7 +18,7 @@ def generate_double_pulse(device, pulse_gap_us):
 
     device.configure_pulse_generator(N1081B.Section.SEC_A,
                                      N1081B.StatisticMode.STAT_DETERMINISTIC,
-                                     1000, 1000000, True, False, True, False)
+                                     1000, 5000000, True, False, True, False)
     
     # Set outputs to TTL
     device.set_output_configuration(N1081B.Section.SEC_A,
@@ -46,8 +46,31 @@ def generate_double_pulse(device, pulse_gap_us):
                                             True,
                                             True,
                                             1000,
-                                            int(pulse_gap_us)*1000 - 200,
+                                            int(pulse_gap_us)*500,
                                             False)
+    
+    # Set section C function as OR + Veto
+    device.set_section_function(N1081B.Section.SEC_C,
+                                    N1081B.FunctionType.FN_OR_VETO)
+    
+    device.configure_or_veto(N1081B.Section.SEC_C,
+                             True, True, False, False, False, False, 0)
+    
+    device.set_input_configuration(N1081B.Section.SEC_C,
+                                    N1081B.SignalStandard.STANDARD_TTL,
+                                    N1081B.SignalStandard.STANDARD_TTL,
+                                    0,
+                                    N1081B.SignalImpedance.IMPEDANCE_50)
+
+
+    # Configure the gap between the two pulses
+    device.set_input_channel_configuration(N1081B.Section.SEC_C,
+                                            1,
+                                            True,
+                                            True,
+                                            1000,
+                                            int(pulse_gap_us)*500,
+                                            False)  
     
 
     print("Generated double pulse with a gap of {} us".format(pulse_gap_us))
