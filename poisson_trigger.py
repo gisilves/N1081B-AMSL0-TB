@@ -3,6 +3,12 @@ import argparse
 from N1081B_sdk import N1081B
 
 def poisson_trigger(device, avg_freq, duration):
+    """
+    Generate Poisson distributed pulses with an average frequency of avg_freq Hz for duration seconds.
+    """
+    device.set_output_configuration(N1081B.Section.SEC_D,
+                                     N1081B.SignalStandard.STANDARD_TTL)
+    
     if duration == -1:
         print("Generating Poisson distributed pulses with an average frequency of {} Hz".format(avg_freq))
         device.configure_pulse_generator(N1081B.Section.SEC_D,
